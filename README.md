@@ -22,8 +22,14 @@ Libraries for leaflet.js to work
 jQuery
 --------
 ```javascript
-$('.mapContainer').leafletify();
+$('.mapContainer').leafletify( options );
 ```
+
+All the same options as Leafletify has: http://leafletjs.com/reference.html#map-l.map
+With the addition of the following:
+	
+	debug : (bool) Used to show debugging messages in the console
+	imagePath : (string) Used to set the image directory (for map markers)
 
 Points (each item you want to appear on map)
 ------------------------------------------

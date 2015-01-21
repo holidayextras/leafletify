@@ -10,8 +10,10 @@
 *
 *
 *	Options:
-*		debug : (bool) Used to show debugging messages in the console
-*		imagePath : (string) Used to set the image directory (for map markers)
+*		All the same options as Leafletify has: http://leafletjs.com/reference.html#map-l.map
+*		With the addition of the following:
+*			debug : (bool) Used to show debugging messages in the console
+*		 	imagePath : (string) Used to set the image directory (for map markers)
 *
 *	Uses Schema.org geocoordinates to get data for the map points http://schema.org/GeoCoordinates
 *	Each map point must contain a class (can have multiple) named the same as the map id the point belongs to 
@@ -154,7 +156,7 @@
 
 					// Create an instance of a leaflet map
 					// Works on using the html element of this map ( $(this).get(0))
-					var map = localL.map( $(this).get(0) );
+					var map = localL.map( $(this).get(0), settings );
 
 					// Store this map's state. Used to prevent trying to re-init the points again later.
 					var mapInitialized = false;
