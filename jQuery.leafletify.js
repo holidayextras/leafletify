@@ -68,21 +68,21 @@
 			}
 
 			// Create a reusable OpenStreetMap tile layer
-			var OSMtileLayer = localL.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			var OSMtileLayer = localL.tileLayer( 'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-			});
+			} );
 
 			var mapIcons = {}; // Storing the icons found rather than keep re-using them
 			
 			// Loop over each map
-			this.each(function() {
+			this.each( function() {
 
 				var mapPoints = []; // MapPoints for this map
 
 				try {
 
 					// Get the mapName & init an object ready to store all the points on it
-					var mapName = $(this).data( 'mapname' );
+					var mapName = $( this ).data( 'mapname' );
 
 					// We need to know the map's name before we can find the points associated with it!
 					if( !mapName ) {
@@ -90,42 +90,42 @@
 					}
 
 					// Find all the points for this map
-					$( '.' + mapName ).each(function() {
+					$( '.' + mapName ).each( function() {
 						try {
 
 							// Get some data from the DOM of the mapPoint
-							var data = $(this).data();
+							var data = $( this ).data();
 
 							// Our all important lat / lons
-							var latitude = $('[itemprop="latitude"]', $(this) );
-							var longitude = $('[itemprop="longitude"]', $(this) );
+							var latitude = $( '[itemprop="latitude"]', $( this ) );
+							var longitude = $( '[itemprop="longitude"]', $( this ) );
 
 							// Now make sure we have values we need
 							if( latitude.length && longitude.length ) {
 
 								// Add this mapPoint to a list ready to add on a map later
 								// Only add point if we have the data
-								if( latitude[0].content && longitude[0].content ) {
+								if( latitude[ 0 ].content && longitude[ 0 ].content ) {
 
 									// Make a point object, min requirements (lat & lon)
 									var pointObj = {
-										lat : latitude[0].content,
-										lon : longitude[0].content
+										lat : latitude[ 0 ].content,
+										lon : longitude[ 0 ].content
 									};
 
 									// You want a custom icon?
 									if( data.mapicondiv ) {
 										// Use the icon we have already stored or Go & find that icon & store it for re-use
 										// Because we are doing a DOM lookup to get the icon, this is more efficient.
-										if( mapIcons[data.mapicondiv] !== undefined ) {
-											pointObj.icondiv = mapIcons[data.mapicondiv];
+										if( mapIcons[ data.mapicondiv ] !== undefined ) {
+											pointObj.icondiv = mapIcons[ data.mapicondiv ];
 										} else if( $( '.' + data.mapicondiv ).length ) {
 											// We only want to get here if the icon actually exists in the dom.
-											mapIcons[data.mapicondiv] = localL.divIcon({
+											mapIcons[ data.mapicondiv ] = localL.divIcon( {
 												className : data.mapicondiv,
 												iconSize : null
-											});
-											pointObj.icondiv = mapIcons[data.mapicondiv];
+											} );
+											pointObj.icondiv = mapIcons[ data.mapicondiv ];
 										}
 									}
 
@@ -134,7 +134,7 @@
 										// Use the content from inside the 'place' schema
 										// TODO: Find a way later to allow user to choose content alternative
 										// (perhaps passing in a selector?)
-										pointObj.popover = $(this).html();
+										pointObj.popover = $( this ).html();
 									}
 
 									// Push map point onto this mapPoints array
@@ -151,13 +151,13 @@
 
 					// Create an instance of a leaflet map
 					// Works on using the html element of this map ( $(this).get(0))
-					var map = localL.map( $(this).get(0), settings );
+					var map = localL.map( $( this ).get( 0 ), settings );
 
 					// Store this map's state. Used to prevent trying to re-init the points again later.
 					var mapInitialized = false;
 
 					// Some event binding on the mapContainer
-					$(this).on( 'showMap', function() {
+					$( this ).on( 'showMap', function() {
 
 						// Hold a list of ALL the lats & lons to set the map centre later	
 						var latLngs = [];
@@ -167,7 +167,7 @@
 							map.invalidateSize();
 						} else {
 							// Get details from the map container
-							var mapData = $(this).data();
+							var mapData = $( this ).data();
 
 							// Need to clone the layer before we use it otherwise it causes problems
 							// with multiple maps.
@@ -179,7 +179,7 @@
 								// Catch any problems & move on to next marker here
 								try {
 									// Hold this points lat & lon
-									var latLng = [mapPoints[i].lat,mapPoints[i].lon];
+									var latLng = [ mapPoints[ i ].lat, mapPoints[ i ].lon ];
 
 									// Add this point to our latLng list ready to use when centering the map
 									latLngs.push( latLng );
@@ -188,8 +188,8 @@
 									var markerOptions = {};
 
 									// If we had an icon div, use that
-									if( mapPoints[i].icondiv ) {
-										markerOptions.icon = mapPoints[i].icondiv;
+									if( mapPoints[ i ].icondiv ) {
+										markerOptions.icon = mapPoints[ i ].icondiv;
 									}
 
 									// Add a marker to the map
@@ -198,8 +198,8 @@
 									// Bind a popover to our marker if we have one
 									// TODO: Find a way to make the offset dynamic based on the marker size (right now it
 									// positions itself directly over the marker image)
-									if( mapPoints[i].popover !== undefined ) {
-										marker.bindPopup( mapPoints[i].popover );
+									if( mapPoints[ i ].popover !== undefined ) {
+										marker.bindPopup( mapPoints[ i ].popover );
 									}
 								} catch( e ) {
 									_debug( 'Marker Error: ' + e );
@@ -219,13 +219,13 @@
 							mapInitialized = true;
 						}
 
-					}).on( 'hideMap', function() {
+					} ).on( 'hideMap', function() {
 						// Nothing needed here yet... useful to know we can do something on hide later
-					});
+					} );
 
 					// Trigger the first event to show the map on load (only if it's visible)
-					if( $(this).is( ':visible' ) ) {
-						$(this).trigger( 'showMap' );
+					if( $( this ).is( ':visible' ) ) {
+						$( this ).trigger( 'showMap' );
 					}
 
 				} catch( e ) {
@@ -241,4 +241,4 @@
 		return this;
 	}
 	
-})( jQuery, window, document );
+} )( jQuery, window, document );
