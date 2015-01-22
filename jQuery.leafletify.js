@@ -33,11 +33,6 @@
 		window.console && console.log && console.log( arguments );
 	};
 
-	// Quick fix... not liking this too much
-	var getPoints = function() {
-		return this.mapPoints;
-	}
-
 	$.fn.leafletify = function( options ) {
 
 		try {
@@ -232,14 +227,6 @@
 					if( $(this).is( ':visible' ) ) {
 						$(this).trigger( 'showMap' );
 					}
-
-
-					// Quick fix to get map points 
-					this.map = map || {};
-					this.mapPoints = mapPoints || [];
-					this.getPoints = getPoints;
-
-
 
 				} catch( e ) {
 					_debug( 'Map loop error: ' + e );
